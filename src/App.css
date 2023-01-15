@@ -1,0 +1,105 @@
+
+.App{
+  display: grid;
+  place-items: center;
+  height: fit-content;
+  gap: 1.5em;
+}
+
+.cards{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.5em;
+  color: #000;
+  width: 100%;
+  height: 100vh;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 1.5em;
+  background-image: url(./assets/bg.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.CardUser{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 260px;
+  height: 200px;
+  padding: 1em;
+  border-radius: 1em;
+  background-color: rgba(255, 255, 255, .4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, .9);
+}
+
+.email{
+  font-size: .7em;
+}
+
+.user_admin{
+  justify-self: flex-end;
+  align-self: flex-end;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 70px;
+}
+
+.btn{
+  display: grid;
+  place-items: center;
+  border-radius: .2em;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.btn:hover{
+  box-shadow: 0 8px 12px rgba(0, 0, 0, .9);
+}
+
+.btn-trash{
+  color: #F1F1F1;
+  background-color: tomato;
+}
+
+.btn-edit{
+  color: #F1F1F1;
+  background-color: rgb(2, 84, 247);
+}
+
+.header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.btn-add{
+  justify-self: flex-end;
+  align-self: flex-end;
+  display: flex;
+  gap: .5em;
+  width: 150px;
+  height: 30px;
+  padding: 1em;
+  border: none;
+  font-size: 1.1em;
+  color: #F1F1F1;
+  border-radius: .5em;
+  background-color: rgb(4, 63, 183);
+  transition: all .5s ease;
+}
+
+.btn-add:hover{
+  box-shadow: 0 8px 16px rgba(0, 0, 0, .9);
+  background-color: rgb(34, 108, 255);
+}
