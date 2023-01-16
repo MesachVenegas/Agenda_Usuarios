@@ -8,6 +8,7 @@ function App() {
     const [users, setUsers] = useState([])
     const [newUser, setNewUser] = useState(false)
     const [status, setStatus] = useState(false)
+    const [countUsers, setCountUsers] = useState(0)
     const [postStatus, setPostStatus] = useState('')
 
     const adduser = () =>{
@@ -16,7 +17,9 @@ function App() {
     }
 
     const getUsers = () => {
-        axios.get('https://users-crud.academlo.tech/users/').then(res => setUsers(res.data))
+        axios
+            .get('https://users-crud.academlo.tech/users/')
+            .then(res => setUsers(res.data))
     }
 
     const addUsers = (user) =>{
@@ -24,17 +27,17 @@ function App() {
             .then(() =>{
                 getUsers();
                 setStatus(true);
+                setCountUsers(users.length)
             })
             .catch(res => {
-                setPostStatus(res.response.statusText);
+                setPostStatus(res.response);
             })
-        return status;
-    }
-
+            return status;
+        }
 
     useEffect(()=>{
-        getUsers()
-    },[])
+            getUsers()
+        },[])
 
     return (
         <div className="App">
@@ -48,14 +51,20 @@ function App() {
                     setNewUser={setNewUser}
                 />
             }
+
             <div className="header">
                 <h1>Users</h1>
-                <button className='btn btn-add' onClick={adduser}>
-                    <i className="fa-solid fa-plus"></i>New User
-                </button>
+                <div className="header_status">
+                    <span>
+                        Registered Users: {countUsers}
+                    </span>
+                    <button className='btn btn-add' onClick={adduser}>
+                        <i className="fa-solid fa-plus"></i>New User
+                    </button>
+                </div>
             </div>
             <div className="cards">
-                <UsersList data={users}/>
+                <UsersList data={users} loadUsers={getUsers} />
             </div>
         </div>
     )

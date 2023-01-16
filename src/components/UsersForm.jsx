@@ -47,6 +47,8 @@ const UsersForm = ({addUsers, message, newUser, setNewUser}) => {
                         onChange={e =>  setFirstName(e.target.value) }
                         required
                     />
+                </div>
+                <div className="box">
                     <input
                         type="text"
                         placeholder='Last Name'
