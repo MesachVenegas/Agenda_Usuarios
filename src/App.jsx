@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import UsersList from './components/UsersList'
 import UsersForm from './components/UsersForm'
+import DeletePopUp from './components/DeletePopUp'
+import axios from 'axios'
 import './App.css'
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     const [status, setStatus] = useState(false)
     const [countUsers, setCountUsers] = useState(0)
     const [postStatus, setPostStatus] = useState('')
+    const [deleteStatus, setDeleteStatus] = useState(false)
 
     const adduser = () =>{
         setNewUser(!newUser)
@@ -24,20 +26,26 @@ function App() {
 
     const addUsers = (user) =>{
         axios.post(`https://users-crud.academlo.tech/users/`, user)
-            .then(() =>{
+            .then( res =>{
                 getUsers();
-                setStatus(true);
-                setCountUsers(users.length)
+                setStatus(true)
+                setTimeout(() =>{
+                    setNewUser(false);
+                }, 1000)
+                console.log(res);
             })
             .catch(res => {
                 setPostStatus(res.response);
             })
-            return status;
-        }
+        return status;
+    }
+
 
     useEffect(()=>{
             getUsers()
         },[])
+
+    console.log( deleteStatus );
 
     return (
         <div className="App">
@@ -64,7 +72,7 @@ function App() {
                 </div>
             </div>
             <div className="cards">
-                <UsersList data={users} loadUsers={getUsers} />
+                <UsersList data={users} loadUsers={getUsers} setDeleteState={setDeleteStatus}/>
             </div>
         </div>
     )

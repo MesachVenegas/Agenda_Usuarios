@@ -11,6 +11,7 @@ const UsersForm = ({addUsers, message, newUser, setNewUser}) => {
     const [resolution, setResolution] = useState(false)
     const [bg, setBg] = useState(false)
 
+    // Al presionar subir toma los datos de los inputs en un objeto y los ingesa a las API
     const submit = e =>{
         e.preventDefault();
         const preUser = {
@@ -20,8 +21,9 @@ const UsersForm = ({addUsers, message, newUser, setNewUser}) => {
             password: password,
             birthday: birthday
         }
+        // Si la funcion que agrega el resultado retorna true
         if(addUsers(preUser)){
-            console.log(addUsers(preUser));
+            // Cambia el estado de la resolución a true, para cambiar el mensaje mostrado en el btn del formulario.
             setResolution(true)
             setBg(true)
         }

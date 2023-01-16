@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const UsersList = ({data, loadUsers, showMessage}) => {
+const UsersList = ({data, loadUsers, showPopup}) => {
     const [selectedUser, setSelectedUser] = useState( {} )
-    const [deleteStatus, setDeleteStatus] = useState(false)
+    const [deleteState, setDeleteState] = useState(false)
 
     const deleteUser = (userSelected) =>{
         data.forEach(user => {
@@ -11,11 +11,11 @@ const UsersList = ({data, loadUsers, showMessage}) => {
                 axios
                     .delete(`https://users-crud.academlo.tech/users/${userSelected}/`)
                     .then( () =>{
-                        setDeleteStatus(true)
                         loadUsers()
-                        showMessage(deleteStatus)
+                        setDeleteState(true)
+                        showPopup(deleteState)
                     })
-                    .catch(res => console.log(res.response.detail))
+                    .catch(res => console.log(res.response))
             }
         })
     }
