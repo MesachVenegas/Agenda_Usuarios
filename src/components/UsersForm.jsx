@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState} from 'react';
 import './style/usersForm.css'
 
 
-const UsersForm = ({addUser, message}) => {
+const UsersForm = ({addUsers, message, newUser, setNewUser}) => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -14,13 +14,14 @@ const UsersForm = ({addUser, message}) => {
     const submit = e =>{
         e.preventDefault();
         const preUser = {
-            firstName: firstName,
-            lastName: lastName,
+            first_name: firstName,
+            last_name: lastName,
             email: email,
             password: password,
             birthday: birthday
         }
-        if(addUser(preUser)){
+        if(addUsers(preUser)){
+            console.log(addUsers(preUser));
             setResolution(true)
             setBg(true)
         }
@@ -29,6 +30,9 @@ const UsersForm = ({addUser, message}) => {
     return (
         <div className='UserForm'>
             <form className='formUser' onSubmit={submit}>
+                <div className="btn btn-close" onClick={() => setNewUser(!newUser)}>
+                    <i className="fa-solid fa-xmark"></i>
+                </div>
                 <h2>New User</h2>
 
                 <div className="box">

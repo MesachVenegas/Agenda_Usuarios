@@ -2,7 +2,6 @@
 .App{
   display: grid;
   place-items: center;
-  height: fit-content;
   gap: 1.5em;
 }
 
