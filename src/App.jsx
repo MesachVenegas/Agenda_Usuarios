@@ -89,7 +89,6 @@ function App() {
 
     // Elimina un usuario de la API
     const deleteUser = (toDelete) =>{
-        // https://users-crud.academlo.tech/users/1/
         axios.delete(`https://users-crud.academlo.tech/users/${toDelete.id}/`)
         .then( () => loadPopUp("delete") )
         .catch( res => console.log(res.response))
