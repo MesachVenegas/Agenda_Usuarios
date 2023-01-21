@@ -1,25 +1,5 @@
-import { useState } from 'react';
-import axios from 'axios';
 
-const UsersList = ({data, loadUsers, showPopup}) => {
-    const [selectedUser, setSelectedUser] = useState( {} )
-    const [deleteState, setDeleteState] = useState(false)
-
-    const deleteUser = (userSelected) =>{
-        data.forEach(user => {
-            if(user.id === userSelected){
-                axios
-                    .delete(`https://users-crud.academlo.tech/users/${userSelected}/`)
-                    .then( () =>{
-                        loadUsers()
-                        setDeleteState(true)
-                        showPopup(deleteState)
-                    })
-                    .catch(res => console.log(res.response))
-            }
-        })
-    }
-
+const UsersList = ({ data, selectUser, deleteUser }) => {
 
 
     return data?.map(user =>(
@@ -34,10 +14,10 @@ const UsersList = ({data, loadUsers, showPopup}) => {
                 </p>
             </div>
             <div className="user_admin">
-                <span className='btn btn-edit' >
+                <span className='btn btn-edit' onClick={ () =>  selectUser( user ) }>
                     <i className="fa-solid fa-pen"></i>
                 </span>
-                <span className='btn btn-trash' onClick={() => deleteUser(user.id)}>
+                <span className='btn btn-trash' onClick={ () => deleteUser( user ) }>
                     <i className=" fa-solid fa-trash "></i>
                 </span>
             </div>

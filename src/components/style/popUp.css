@@ -1,0 +1,37 @@
+.overlay_popUp {
+    display: grid;
+    position: fixed;
+    place-items: center;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, .2);
+    z-index: 30;
+}
+
+.popUp_content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #f1f1f1;
+    border-radius: 1em;
+    width: 50%;
+    height: 50%;
+    padding: 1em;
+    background-color: #000;
+}
+
+.figure_container{
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+}
+
+.check_icon{
+    width: 100%;
+    object-fit: cover;
+}

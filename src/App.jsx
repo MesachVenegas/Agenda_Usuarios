@@ -1,62 +1,105 @@
 import { useState, useEffect } from 'react'
 import UsersList from './components/UsersList'
 import UsersForm from './components/UsersForm'
-import DeletePopUp from './components/DeletePopUp'
+import PopUp from './components/PopUp'
 import axios from 'axios'
 import './App.css'
 
 function App() {
     const [users, setUsers] = useState([])
-    const [newUser, setNewUser] = useState(false)
-    const [status, setStatus] = useState(false)
+    const [addModal, setAddModal] = useState(false)
     const [countUsers, setCountUsers] = useState(0)
-    const [postStatus, setPostStatus] = useState('')
-    const [deleteStatus, setDeleteStatus] = useState(false)
+    const [isCreate, setIsCreate] = useState(false)
+    const [isDeleted , setIsDeleted] = useState(false)
+    const [isUpdate, setIsUpdate] = useState(false)
+    const [selected, setSelected] = useState(null)
+    const [message, setMessage] = useState("")
 
-    const adduser = () =>{
-        setNewUser(!newUser)
-        setPostStatus('')
+    const loadPopUp = (action) =>{
+        switch(action){
+            case 'create':
+                getUsers();
+                setIsCreate(true)
+                setAddModal(false);
+                setMessage("Creado")
+                setTimeout(() => {
+                    setIsCreate(false)
+                    setMessage("")
+                }, 3000)
+                break;
+            case 'update':
+                getUsers();
+                setIsUpdate(true)
+                setAddModal(false);
+                setMessage("Actualizado")
+                setTimeout(() => {
+                    setIsUpdate(false)
+                    setMessage("")
+                }, 3000)
+                break;
+            case 'delete':
+                getUsers();
+                setIsDeleted(true)
+                setMessage("Eliminado")
+                setTimeout(() => {
+                    setIsDeleted(false)
+                    setMessage("")
+                }, 3000)
+                break;
+            default:
+                return
+        }
     }
 
+    // Cambia el estado del controlador para mostrar el modal u no.
+    const adduser = () =>{
+        setAddModal(!addModal)
+        setIsCreate('')
+    }
+
+    // selecciona un usuario para su posterior edición.
+    const selectUser = (toSelect) =>{
+        console.log(toSelect);
+    }
+
+    // Trae la lista de usuarios en el API.
     const getUsers = () => {
         axios
             .get('https://users-crud.academlo.tech/users/')
             .then(res => setUsers(res.data))
+            .then( res => setCountUsers(res?.data.length))
     }
 
+    // Creacon de usuario en la API.
     const addUsers = (user) =>{
         axios.post(`https://users-crud.academlo.tech/users/`, user)
-            .then( res =>{
-                getUsers();
-                setStatus(true)
-                setTimeout(() =>{
-                    setNewUser(false);
-                }, 1000)
-                console.log(res);
-            })
-            .catch(res => {
-                setPostStatus(res.response);
-            })
-        return status;
+            .then( () => loadPopUp("create") )
+            .catch(res => console.log( res.response) )
     }
 
+    // Elimina un usuario de la API
+    const deleteUser = (toDelete) =>{
+        // https://users-crud.academlo.tech/users/1/
+        axios.delete(`https://users-crud.academlo.tech/users/${toDelete.id}/`)
+        .then( () => loadPopUp("delete") )
+        .catch( res => console.log(res.response))
+    }
 
     useEffect(()=>{
             getUsers()
         },[])
 
-    console.log( deleteStatus );
 
     return (
         <div className="App">
+            { ( isDeleted || isCreate ) && <PopUp message={ message }/>}
             {
-                newUser
+                addModal
                 &&
                 <UsersForm
                     addUsers={addUsers}
-                    message={postStatus}
-                    newUser={newUser}
-                    setNewUser={setNewUser}
+                    addModal={addModal}
+                    setAddModal={setAddModal}
                 />
             }
 
@@ -72,7 +115,12 @@ function App() {
                 </div>
             </div>
             <div className="cards">
-                <UsersList data={users} loadUsers={getUsers} setDeleteState={setDeleteStatus}/>
+                <UsersList
+                    data={ users }
+                    loadUsers={ getUsers }
+                    selectUser= { selectUser }
+                    deleteUser={ deleteUser }
+                />
             </div>
         </div>
     )

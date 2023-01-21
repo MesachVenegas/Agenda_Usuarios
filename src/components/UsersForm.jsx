@@ -2,13 +2,12 @@ import { useState} from 'react';
 import './style/usersForm.css'
 
 
-const UsersForm = ({addUsers, message, newUser, setNewUser}) => {
+const UsersForm = ({addUsers, addModal, setAddModal}) => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [birthday, setBirthday] = useState('')
-    const [resolution, setResolution] = useState(false)
     const [bg, setBg] = useState(false)
 
     // Al presionar subir toma los datos de los inputs en un objeto y los ingesa a las API
@@ -21,18 +20,13 @@ const UsersForm = ({addUsers, message, newUser, setNewUser}) => {
             password: password,
             birthday: birthday
         }
-        // Si la funcion que agrega el resultado retorna true
-        if(addUsers(preUser)){
-            // Cambia el estado de la resolución a true, para cambiar el mensaje mostrado en el btn del formulario.
-            setResolution(true)
-            setBg(true)
-        }
+        addUsers(preUser)
     }
 
     return (
         <div className='UserForm'>
             <form className='formUser' onSubmit={submit}>
-                <div className="btn btn-close" onClick={() => setNewUser(!newUser)}>
+                <div className="btn btn-close" onClick={() => setAddModal(!addModal)}>
                     <i className="fa-solid fa-xmark"></i>
                 </div>
                 <h2>New User</h2>
@@ -102,16 +96,9 @@ const UsersForm = ({addUsers, message, newUser, setNewUser}) => {
                     />
                 </div>
                 <div className="box">
-                    <button className={`btn btn-submit ${bg ? 'active' : ''}`} type='submit'>
-                        {
-                            resolution ?
-                                (<span><i className="fa-solid fa-circle-check"></i> Ready</span>)
-                            : 'Upload'
-                        }
-                        </button>
-                </div>
-                <div className={message ? 'error' : ''}>
-                    {message? message: ''}
+                    <button className="btn btn-submit" type='submit'>
+                        Upload
+                    </button>
                 </div>
             </form>
         </div>
