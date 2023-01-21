@@ -1,5 +1,11 @@
+import { useEffect } from "react";
 
-const UsersList = ({ data, selectUser, deleteUser }) => {
+
+const UsersList = ({ data, selectUser, deleteUser, setCountUsers }) => {
+
+    useEffect( () =>{
+        setCountUsers( data?.length)
+    },[data])
 
 
     return data?.map(user =>(

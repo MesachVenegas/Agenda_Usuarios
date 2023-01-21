@@ -68,7 +68,7 @@ function App() {
         axios
             .get('https://users-crud.academlo.tech/users/')
             .then(res => setUsers(res.data))
-            .then( res => setCountUsers(res?.data.length))
+
     }
 
     // Creacon de usuario en la API.
@@ -129,6 +129,7 @@ function App() {
             <div className="cards">
                 <UsersList
                     data={ users }
+                    setCountUsers={ setCountUsers }
                     loadUsers={ getUsers }
                     selectUser= { selectUser }
                     deleteUser={ deleteUser }
