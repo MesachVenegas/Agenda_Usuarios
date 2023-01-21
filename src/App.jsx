@@ -59,7 +59,8 @@ function App() {
 
     // selecciona un usuario para su posterior edición.
     const selectUser = (toSelect) =>{
-        console.log(toSelect);
+            setSelected(toSelect)
+            setAddModal(true)
     }
 
     // Trae la lista de usuarios en el API.
@@ -72,9 +73,18 @@ function App() {
 
     // Creacon de usuario en la API.
     const addUsers = (user) =>{
-        axios.post(`https://users-crud.academlo.tech/users/`, user)
-            .then( () => loadPopUp("create") )
-            .catch(res => console.log( res.response) )
+        if(selected !== null){
+            // https://users-crud.academlo.tech/users/3328/
+            user.id = selected.id;
+            axios.put(`https://users-crud.academlo.tech/users/${user.id}/`, user)
+                .then( () => loadPopUp("update") )
+                .then( () => setSelected(null) )
+                .catch(res => console.log(res.response));
+        }else{
+            axios.post(`https://users-crud.academlo.tech/users/`, user)
+                .then( () => loadPopUp("create") )
+                .catch(res => console.log( res.response) );
+        }
     }
 
     // Elimina un usuario de la API
@@ -92,14 +102,16 @@ function App() {
 
     return (
         <div className="App">
-            { ( isDeleted || isCreate ) && <PopUp message={ message }/>}
+            { ( isDeleted || isCreate || isUpdate) && <PopUp message={ message }/>}
             {
                 addModal
                 &&
                 <UsersForm
-                    addUsers={addUsers}
-                    addModal={addModal}
-                    setAddModal={setAddModal}
+                    addUsers={ addUsers }
+                    addModal={ addModal }
+                    setAddModal={ setAddModal }
+                    selected={ selected }
+                    setSelected = { setSelected }
                 />
             }
 

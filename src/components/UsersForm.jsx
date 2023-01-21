@@ -1,14 +1,30 @@
-import { useState} from 'react';
+import { useEffect, useState} from 'react';
 import './style/usersForm.css'
 
 
-const UsersForm = ({addUsers, addModal, setAddModal}) => {
+const UsersForm = ({ addUsers, addModal, setAddModal, selected }) => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [birthday, setBirthday] = useState('')
-    const [bg, setBg] = useState(false)
+
+    useEffect( () => {
+        if(selected !== null){
+            setFirstName( selected.first_name )
+            setLastName( selected.last_name )
+            setEmail( selected.email )
+            setPassword( selected.password )
+            setBirthday( selected.birthday )
+        }
+        else{
+            setFirstName("")
+            setLastName("")
+            setEmail("")
+            setPassword("")
+            setBirthday("")
+        }
+    },[selected])
 
     // Al presionar subir toma los datos de los inputs en un objeto y los ingesa a las API
     const submit = e =>{
@@ -61,7 +77,7 @@ const UsersForm = ({addUsers, addModal, setAddModal}) => {
                         id='email'
                         type="email"
                         placeholder='email'
-                        value={email}
+                        value={ email }
                         onChange={e => setEmail(e.target.value)}
                         required
                     />

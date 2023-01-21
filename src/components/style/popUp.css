@@ -25,6 +25,10 @@
     background-color: #000;
 }
 
+.popUp_content > h2{
+    text-align: center;
+}
+
 .figure_container{
     width: 250px;
     height: 250px;
